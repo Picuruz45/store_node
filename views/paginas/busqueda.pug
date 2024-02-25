@@ -1,0 +1,29 @@
+extends ../layout/layout
+
+block header
+
+    section(class="w-full flex gap-3 bg-white p-4") 
+        article(class="w-1/5 p-2")
+            
+        article(class="p-2 flex flex-col gap-4 w-full")
+            
+            div(class="flex gap-4 flex-wrap")
+                if error
+                    p=msg
+                if producto
+                    each key, index in producto
+                        div(class="shadow-lg shadow-cyan-500/50 rounded-lg p-2")
+                            h2=producto[index].nombre 
+                            p=producto[index].descripcion
+                            img(src=producto[index].url, alt=producto[index].nombre, class="max-h-56") 
+                            p $#{producto[index].precio}
+
+            div(class="flex gap-4 flex-wrap")
+                if genero
+                    each key, index in genero
+                        div(class="shadow-lg shadow-cyan-500/50 rounded-lg p-2")
+                            h2=genero[index].nombre 
+                            p=genero[index].descripcion
+                            img(src=genero[index].url, alt=genero[index].nombre, class="max-h-56") 
+                            p $#{genero[index].precio}
+            

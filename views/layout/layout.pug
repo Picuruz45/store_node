@@ -1,0 +1,60 @@
+doctype
+html(lang='es')
+    head
+        meta(charset='utf-8')
+        title Carpinteria-#{pagina}
+        link(rel="stylesheet", href="/css/app.css")
+        script(src="app.js") 
+    body(class="bg-slate-300")
+        
+        header(class="p-2 flex items-center justify-around" id="header")
+            
+            a(href="/inicio") 
+                img(src="https://static.thenounproject.com/png/1391683-200.png", alt="logo" class=" h-16")
+            
+            form(id="formulario" action="/inicio" method="post" class="flex gap-2") 
+                input(id="buscador" type="search" placeholder="producto" name="busqueda" class="p-1") 
+                input(id="buscar" type="submit" value="buscar" class="bg-blue-600 px-2 rounded-lg text-white hover:bg-blue-500 cursor-pointer") 
+            
+            nav(class="flex gap-3") 
+                a(href="") Carrito
+                a(href="/productos") Productos 
+                a(href="/login") Cuenta
+block header
+        
+        section(class="flex justify-center gap-3 p-3") 
+            article(class="h-72 bg-white rounded-xl p-3 flex items-center justify-end")
+                img(src="img/test.png", alt="test" class="h-full")
+            article(class="h-72 w-96 bg-white rounded-xl p-3 flex flex-col gap-1 justify-center")
+                h2 aca va texto
+                p Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati ducimus ratione porro repellat voluptatem distinctio laborum veniam exercitationem. Consequatur itaque tempora minus et dolorum optio debitis ullam, unde iste hic.
+        
+        section(id="carrusel" class="p-4 flex justify-center gap-3")
+            div(class=" h-44 rounded-md overflow-hidden") 
+                img(src="img/test.png", alt="test" class="h-full") 
+            div(class=" h-44 rounded-md overflow-hidden") 
+                img(src="img/test.png", alt="test" class="h-full") 
+            div(class=" h-44 rounded-md overflow-hidden") 
+                img(src="img/test.png", alt="test" class="h-full") 
+            div(class=" h-44 rounded-md overflow-hidden") 
+                img(src="img/test.png", alt="test" class="h-full") 
+            div(class=" h-44 rounded-md overflow-hidden") 
+                img(src="img/test.png", alt="test" class="h-full") 
+        
+        section(id="productos" class="flex justify-center")
+            article(class="grid gap-3 grid-cols-3 grid-rows-2  p-4") 
+                div(class="bg-white h-48 w-fit rounded-lg overflow-hidden")
+                    img(src="img/test.png", alt="" class="h-full ")
+                div(class="bg-white h-48 w-fit rounded-lg overflow-hidden")
+                    img(src="img/test.png", alt="" class="h-full ")
+                div(class="bg-white h-48 w-fit rounded-lg overflow-hidden")
+                    img(src="img/test.png", alt="" class="h-full ")
+                div(class="bg-white h-48 w-fit rounded-lg overflow-hidden")
+                    img(src="img/test.png", alt="" class="h-full ")
+                div(class="bg-white h-48 w-fit rounded-lg overflow-hidden")
+                    img(src="img/test.png", alt="" class="h-full ")
+                div(class="bg-white h-48 w-fit rounded-lg overflow-hidden")
+                    img(src="img/test.png", alt="" class="h-full ")
+        
+        footer(id="footer" class="p-4 bg-white")
+            h2 footer 
