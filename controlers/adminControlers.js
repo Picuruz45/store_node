@@ -12,19 +12,42 @@ const inicio = (req, res) => {
 const buscarProductos = async (req, res) => {
     const { busqueda } = req.body;
 
-    const genero = await Productos.findAll({ where: {descripcion: {[Op.like]: `%${busqueda}%`}} })
-    const producto = await Productos.findAll({ where: { nombre: {[Op.like]: `%${busqueda}%`} } });
+    const palabras = busqueda.split(" ");
+    
+    let productoResultados = [];
+    let resultadoObjetos = [];
 
-    if(genero?.length == 0 && genero?.length == 0){
-        return res.render("paginas/busqueda", {
-            error: true,
-            msg: "No se encontro nada con ese nombre"
-        })
+    for(let i = 0; i < palabras.length; i++){
+        const genero = await Productos.findAll({ where: {descripcion: {[Op.like]: `%${palabras[i]}%`}} })
+        const producto = await Productos.findAll({ where: { nombre: {[Op.like]: `%${palabras[i]}%`} } });
+
+        if(genero[0] != undefined ){
+            productoResultados = [...productoResultados, genero]
+        }
+
+        if(producto[0] != undefined){
+            productoResultados = [...productoResultados, producto]
+        }
     }
 
+    for(let i = 0; i < productoResultados.length; i++){
+        for(let j = 0; j < productoResultados[i].length; j++){
+            const { nombre, descripcion, url, precio } = productoResultados[i][j];
+
+            const datosBusqueda = {
+                nombre,
+                descripcion,
+                url,
+                precio
+            }
+
+            resultadoObjetos = [...resultadoObjetos, datosBusqueda]
+        }
+    }
+    
     res.render("paginas/busqueda", {
-        producto,
-        genero
+        productos: resultadoObjetos,
+        busqueda
     })
 };
 

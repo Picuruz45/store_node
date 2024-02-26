@@ -7,23 +7,17 @@ block header
             
         article(class="p-2 flex flex-col gap-4 w-full")
             
-            div(class="flex gap-4 flex-wrap")
-                if error
-                    p=msg
-                if producto
-                    each key, index in producto
-                        div(class="shadow-lg shadow-cyan-500/50 rounded-lg p-2")
-                            h2=producto[index].nombre 
-                            p=producto[index].descripcion
-                            img(src=producto[index].url, alt=producto[index].nombre, class="max-h-56") 
-                            p $#{producto[index].precio}
-
-            div(class="flex gap-4 flex-wrap")
-                if genero
-                    each key, index in genero
-                        div(class="shadow-lg shadow-cyan-500/50 rounded-lg p-2")
-                            h2=genero[index].nombre 
-                            p=genero[index].descripcion
-                            img(src=genero[index].url, alt=genero[index].nombre, class="max-h-56") 
-                            p $#{genero[index].precio}
+            if productos != undefined
+                h2(class="text-3xl") Resultados
+                div(class="flex gap-4 flex-wrap")
+                    each key, index in productos
+                            div(class="shadow-lg shadow-cyan-500/50 rounded-lg p-2")
+                                h2=productos[index].nombre 
+                                p=productos[index].descripcion
+                                img(src=productos[index].url, alt=productos[index].nombre, class="max-h-56") 
+                                p $#{productos[index].precio}
+            
+            else 
+                p no se encontro nada con ese nombre
+                        
             
