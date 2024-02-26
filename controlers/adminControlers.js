@@ -1,11 +1,28 @@
 
 import Productos from "../models/Productos.js";
+import CategoriasBD from "../models/Categorias.js";
 import { Op } from 'sequelize';
 // import { check, validationResult } from "express-validator"; 
 
-const inicio = (req, res) => {
+const inicio = async (req, res) => {
+
+    const categoriasInicio = await CategoriasBD.findAll();
+
+    let categorias = [];
+
+    categoriasInicio.forEach( e => {
+
+        const categoriasObject = {
+            nombre: e.nombre,
+            url: e.urlImg
+        }
+
+        categorias = [... categorias, categoriasObject]
+    })
+
     res.render("layout/layout", {
-        pagina: "inicio"
+        pagina: "inicio",
+        categorias
     });
 };
 
@@ -47,24 +64,34 @@ const buscarProductos = async (req, res) => {
     
     res.render("paginas/busqueda", {
         productos: resultadoObjetos,
+        pagina: "Resultados",
         busqueda
     })
 };
 
 const allProductos = async (req, res) => {
-    try {
-        const producto = await Productos.findAll();
+    const allProducts = await Productos.findAll()
+    
+    res.render("paginas/busqueda", {
+        productos: allProducts,
+        pagina: "Todos los Productos"
+    })
+};
 
-        res.render("paginas/busqueda", {
-            producto
-        })
-    } catch (error) {
-        console.log(error)
-    }
+const obtenerCategorias = async (req, res) => {    
+    const { cat } = req.params;
+
+    const categoriaElementos = await Productos.findAll({ where: {descripcion: {[Op.like]: cat}}})
+
+    res.render("paginas/busqueda", {
+        productos: categoriaElementos,
+        pagina: cat
+    })
 };
 
 export {
     inicio,
     buscarProductos,
-    allProductos
+    allProductos,
+    obtenerCategorias
 }

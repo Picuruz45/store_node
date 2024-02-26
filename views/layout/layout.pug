@@ -21,7 +21,7 @@ html(lang='es')
                 a(href="/productos") Productos 
                 a(href="/login") Cuenta
 block header
-        
+
         section(class="flex justify-center gap-3 p-3") 
             article(class="h-72 bg-white rounded-xl p-3 flex items-center justify-end")
                 img(src="img/test.png", alt="test" class="h-full")
@@ -30,16 +30,11 @@ block header
                 p Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati ducimus ratione porro repellat voluptatem distinctio laborum veniam exercitationem. Consequatur itaque tempora minus et dolorum optio debitis ullam, unde iste hic.
         
         section(id="carrusel" class="p-4 flex justify-center gap-3")
-            div(class=" h-44 rounded-md overflow-hidden") 
-                img(src="img/test.png", alt="test" class="h-full") 
-            div(class=" h-44 rounded-md overflow-hidden") 
-                img(src="img/test.png", alt="test" class="h-full") 
-            div(class=" h-44 rounded-md overflow-hidden") 
-                img(src="img/test.png", alt="test" class="h-full") 
-            div(class=" h-44 rounded-md overflow-hidden") 
-                img(src="img/test.png", alt="test" class="h-full") 
-            div(class=" h-44 rounded-md overflow-hidden") 
-                img(src="img/test.png", alt="test" class="h-full") 
+            each key, index in categorias
+                a(href=`/categoria/${categorias[index].nombre}`)
+                    div(class="group h-44 rounded-md overflow-hidden relative flex justify-center items-center hover:bg-gradient-to-b from-white to-black")
+                        p(class=" transition duration-1000 text-white rounded-lg text-3xl py-1 px-2 -z-10 group-hover:z-10 absolute")=categorias[index].nombre
+                        img(src=categorias[index].url, alt=categorias[index].nombre, class="transition duration-500 h-full group-hover:opacity-70")
         
         section(id="productos" class="flex justify-center")
             article(class="grid gap-3 grid-cols-3 grid-rows-2  p-4") 

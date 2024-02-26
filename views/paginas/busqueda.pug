@@ -8,7 +8,7 @@ block header
         article(class="p-2 flex flex-col gap-4 w-full")
             
             if productos != undefined
-                h2(class="text-3xl") Resultados
+                h2(class="text-3xl")=pagina
                 div(class="flex gap-4 flex-wrap")
                     each key, index in productos
                             div(class="shadow-lg shadow-cyan-500/50 rounded-lg p-2")
