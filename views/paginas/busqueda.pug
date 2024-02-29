@@ -2,20 +2,21 @@ extends ../layout/layout
 
 block header
 
-    section(class="w-full flex gap-3 bg-white p-4") 
+    section(class="w-full flex gap-3 p-4") 
         article(class="w-1/5 p-2")
             
         article(class="p-2 flex flex-col gap-4 w-full")
             
             if productos != undefined
                 h2(class="text-3xl")=pagina
-                div(class="flex gap-4 flex-wrap")
+                div(id="target-container" class="flex gap-4 flex-wrap")
                     each key, index in productos
-                            div(class="shadow-lg shadow-cyan-500/50 rounded-lg p-2")
-                                h2=productos[index].nombre 
-                                p=productos[index].descripcion
-                                img(src=productos[index].url, alt=productos[index].nombre, class="max-h-56") 
-                                p $#{productos[index].precio}
+                            a(href=`/product-page/${productos[index].id}`) 
+                                div(class="shadow-lg bg-white shadow-cyan-500/50 rounded-lg p-2")
+                                    h2=productos[index].nombre 
+                                    p=productos[index].descripcion
+                                    img(src=productos[index].url, alt=productos[index].nombre, class="max-h-56") 
+                                    p $#{productos[index].precio}
             
             else 
                 p no se encontro nada con ese nombre

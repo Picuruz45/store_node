@@ -1,5 +1,5 @@
 import express from "express";
-import adminRouts from "./routs/adminRouts.js"
+import router from "./routes/router.js"
 import db from "./config/db.js"
 
 const app = express();
@@ -24,7 +24,7 @@ app.set("views", "./views")
 // Determina ubicacion de archivos estaticos para pug
 app.use( express.static("public") );
 
-app.use("/", adminRouts);
+app.use("/", router);
 
 // Le asigna puerto al servidor 
 const PORT = process.env.PORT ?? 4000;

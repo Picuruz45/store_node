@@ -6,67 +6,77 @@ import { Op } from 'sequelize';
 
 const inicio = async (req, res) => {
 
-    const categoriasInicio = await CategoriasBD.findAll();
+    try {
+        // trae las categorias de la BD
+        const categoriasInicio = await CategoriasBD.findAll();
 
-    let categorias = [];
+        let categorias = [];
 
-    categoriasInicio.forEach( e => {
+        categoriasInicio.forEach( e => {
 
-        const categoriasObject = {
-            nombre: e.nombre,
-            url: e.urlImg
-        }
+            const categoriasObject = {
+                nombre: e.nombre,
+                url: e.urlImg
+            }
 
-        categorias = [... categorias, categoriasObject]
-    })
+            categorias.push(categoriasObject)
+        })
 
-    res.render("layout/layout", {
-        pagina: "inicio",
-        categorias
-    });
+        // traer productos panel inferior
+        const productosRelevantes = await Productos.findAll()
+
+        res.render("layout/layout", {
+            pagina: "inicio",
+            panelInferior: productosRelevantes,
+            categorias
+        });
+    } catch (error) {
+        console.log(error);
+    }
+    
 };
 
-const buscarProductos = async (req, res) => {
+const searchProduct = async (req, res) => {
     const { busqueda } = req.body;
 
     const palabras = busqueda.split(" ");
+
+    try {
+        
+        let allProducts = [];
+
+        for(let i = 0; i < palabras.length; i++){
+            const products = await Productos.findAll({
+                where: {
+                    [Op.or]: [
+                        { descripcion: { [Op.like]: `%${palabras[i]}%` } },
+                        { nombre: { [Op.like]: `%${palabras[i]}%` } }
+                    ]
+                }
+            });
+
+            products.forEach( element => {
+                const productObject = {
+                    nombre: element.nombre,
+                    descripcion: element.descripcion,
+                    url: element.url,
+                    precio: element.precio,
+                    id: element.id
+                }
     
-    let productoResultados = [];
-    let resultadoObjetos = [];
-
-    for(let i = 0; i < palabras.length; i++){
-        const genero = await Productos.findAll({ where: {descripcion: {[Op.like]: `%${palabras[i]}%`}} })
-        const producto = await Productos.findAll({ where: { nombre: {[Op.like]: `%${palabras[i]}%`} } });
-
-        if(genero[0] != undefined ){
-            productoResultados = [...productoResultados, genero]
+                allProducts.push(productObject);
+            })
         }
 
-        if(producto[0] != undefined){
-            productoResultados = [...productoResultados, producto]
-        }
+        res.render("paginas/busqueda", {
+            productos: allProducts,
+            pagina: "Resultados",
+            busqueda
+        })
+
+    } catch (error) {
+        console.log(error)
     }
-
-    for(let i = 0; i < productoResultados.length; i++){
-        for(let j = 0; j < productoResultados[i].length; j++){
-            const { nombre, descripcion, url, precio } = productoResultados[i][j];
-
-            const datosBusqueda = {
-                nombre,
-                descripcion,
-                url,
-                precio
-            }
-
-            resultadoObjetos = [...resultadoObjetos, datosBusqueda]
-        }
-    }
-    
-    res.render("paginas/busqueda", {
-        productos: resultadoObjetos,
-        pagina: "Resultados",
-        busqueda
-    })
 };
 
 const allProductos = async (req, res) => {
@@ -78,7 +88,7 @@ const allProductos = async (req, res) => {
     })
 };
 
-const obtenerCategorias = async (req, res) => {    
+const categories = async (req, res) => {    
     const { cat } = req.params;
 
     const categoriaElementos = await Productos.findAll({ where: {descripcion: {[Op.like]: cat}}})
@@ -89,9 +99,24 @@ const obtenerCategorias = async (req, res) => {
     })
 };
 
+const productView = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const product = await Productos.findOne({ where: { id: id } })
+
+        res.render("templates/productPage", {
+            product,
+        })
+    } catch (error) {
+        console.log(error)
+    }
+};
+
 export {
     inicio,
-    buscarProductos,
+    searchProduct,
     allProductos,
-    obtenerCategorias
+    categories,
+    productView
 }
