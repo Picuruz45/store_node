@@ -1,8 +1,11 @@
 import express from "express";
-import router from "./routes/router.js"
+import router from "./app/routes/index.js";
+import helmet from "helmet";
 import db from "./config/db.js"
 
 const app = express();
+
+// app.use(helmet());
 
 // Conectar con la base de datos
 try {
@@ -24,7 +27,7 @@ app.set("views", "./views")
 // Determina ubicacion de archivos estaticos para pug
 app.use( express.static("public") );
 
-app.use("/", router);
+app.use("/carpinteria", router);
 
 // Le asigna puerto al servidor 
 const PORT = process.env.PORT ?? 4000;

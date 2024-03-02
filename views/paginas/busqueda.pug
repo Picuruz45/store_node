@@ -11,7 +11,7 @@ block header
                 h2(class="text-3xl")=pagina
                 div(id="target-container" class="flex gap-4 flex-wrap")
                     each key, index in productos
-                            a(href=`/product-page/${productos[index].id}`) 
+                            a(href=`http://localhost:4000/carpinteria/tienda/viewItem/${productos[index].id}`) 
                                 div(class="shadow-lg bg-white shadow-cyan-500/50 rounded-lg p-2")
                                     h2=productos[index].nombre 
                                     p=productos[index].descripcion

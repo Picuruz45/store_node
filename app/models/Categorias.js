@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
-import db from "../config/db.js";
+import db from "../../config/db.js";
 
-const CategoriasBD = db.define("categorias", {
+const Categorias = db.define("categorias", {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -21,4 +21,4 @@ const CategoriasBD = db.define("categorias", {
     }
 })
 
-export default CategoriasBD;
+export default Categorias;

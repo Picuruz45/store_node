@@ -4,24 +4,25 @@ html(lang='es')
         meta(charset='utf-8')
         title Carpinteria-#{pagina}
         link(rel="stylesheet", href="/css/app.css")
-        script(src="carpinteria/app.js") 
+        script(src="app.js") 
     body(class="bg-slate-300")
         
         header(class="p-2 flex items-center justify-around" id="header")
             
-            a(href="/inicio") 
+            a(href="http://localhost:4000/carpinteria/tienda/inicio") 
                 img(src="https://static.thenounproject.com/png/1391683-200.png", alt="logo" class=" h-16")
             
-            form(id="formulario" action="inicio" method="post" class="flex gap-2") 
-                input(id="buscador" type="search" placeholder="producto" name="busqueda" class="p-1" value=busqueda) 
+            form(id="formulario" action=`searchItems` method="post" class="flex gap-2") 
+                input(id="busqueda" type="search" placeholder="producto" name="search" class="p-1") 
                 input(id="buscar" type="submit" value="buscar" class="bg-blue-600 px-2 rounded-lg text-white hover:bg-blue-500 cursor-pointer") 
             
             nav(class="flex gap-3") 
                 a(href="") Carrito
-                a(href="/productos") Productos 
-                a(href="/login") Cuenta
+                a(href="http://localhost:4000/carpinteria/tienda/allItem") Productos 
+                a(href="") Cuenta
 block header
 
+        // Galeria
         section(class="flex justify-center gap-3 p-3") 
             article(class="h-72 bg-white rounded-xl p-3 flex items-center justify-end")
                 img(src="img/test.png", alt="test" class="h-full")
@@ -29,22 +30,25 @@ block header
                 h2 aca va texto
                 p Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati ducimus ratione porro repellat voluptatem distinctio laborum veniam exercitationem. Consequatur itaque tempora minus et dolorum optio debitis ullam, unde iste hic.
         
+        // Carrusel
         section(id="carrusel" class="p-4 flex justify-center gap-3")
             each key, index in categorias
-                a(href=`/categoria/${categorias[index].nombre}`)
+                a(href=`getCategori/${categorias[index].nombre}`)
                     div(class="group h-44 rounded-md overflow-hidden relative flex justify-center items-center hover:bg-gradient-to-b from-white to-black")
                         p(class=" transition duration-1000 text-white rounded-lg text-3xl py-1 px-2 -z-10 group-hover:z-10 absolute")=categorias[index].nombre
                         img(src=categorias[index].url, alt=categorias[index].nombre, class="transition duration-500 h-full group-hover:opacity-70")
         
+        // Productos Importantes
         section(id="productos" class="flex justify-center")
             article(class="grid gap-3 grid-cols-3 grid-rows-2  p-4") 
                 each key, index in panelInferior
-                    a(href=`/product-page/${panelInferior[index].id}`) 
+                    a(href=`viewItem/${panelInferior[index].id}`) 
                                 div(class="bg-white shadow-lg shadow-cyan-500/50 rounded-lg p-2")
                                     h2=panelInferior[index].nombre 
                                     p=panelInferior[index].descripcion
                                     img(src=panelInferior[index].url, alt=panelInferior[index].nombre, class="max-h-56") 
                                     p $#{panelInferior[index].precio}
         
+        // Footer
         footer(id="footer" class="p-4 bg-white")
             h2 footer 

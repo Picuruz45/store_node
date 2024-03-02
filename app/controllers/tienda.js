@@ -1,18 +1,16 @@
-
+import Categorias from "../models/Categorias.js";
 import Productos from "../models/Productos.js";
-import CategoriasBD from "../models/Categorias.js";
 import { Op } from 'sequelize';
-// import { check, validationResult } from "express-validator"; 
 
+// Pagina de Inicio
 const inicio = async (req, res) => {
-
     try {
         // trae las categorias de la BD
-        const categoriasInicio = await CategoriasBD.findAll();
+        const getCategorias = await Categorias.findAll();
 
         let categorias = [];
 
-        categoriasInicio.forEach( e => {
+        getCategorias.forEach( e => {
 
             const categoriasObject = {
                 nombre: e.nombre,
@@ -33,24 +31,24 @@ const inicio = async (req, res) => {
     } catch (error) {
         console.log(error);
     }
-    
-};
+}
 
-const searchProduct = async (req, res) => {
-    const { busqueda } = req.body;
+// Logica del Buscador
+const getItems = async (req, res) => {
+    const { search } = req.body;
 
-    const palabras = busqueda.split(" ");
+    const words = search.split(" ");
 
     try {
         
         let allProducts = [];
 
-        for(let i = 0; i < palabras.length; i++){
+        for(let i = 0; i < words.length; i++){
             const products = await Productos.findAll({
                 where: {
                     [Op.or]: [
-                        { descripcion: { [Op.like]: `%${palabras[i]}%` } },
-                        { nombre: { [Op.like]: `%${palabras[i]}%` } }
+                        { descripcion: { [Op.like]: `%${words[i]}%` } },
+                        { nombre: { [Op.like]: `%${words[i]}%` } }
                     ]
                 }
             });
@@ -71,35 +69,16 @@ const searchProduct = async (req, res) => {
         res.render("paginas/busqueda", {
             productos: allProducts,
             pagina: "Resultados",
-            busqueda
+            search
         })
 
     } catch (error) {
         console.log(error)
     }
-};
+}
 
-const allProductos = async (req, res) => {
-    const allProducts = await Productos.findAll()
-    
-    res.render("paginas/busqueda", {
-        productos: allProducts,
-        pagina: "Todos los Productos"
-    })
-};
-
-const categories = async (req, res) => {    
-    const { cat } = req.params;
-
-    const categoriaElementos = await Productos.findAll({ where: {descripcion: {[Op.like]: cat}}})
-
-    res.render("paginas/busqueda", {
-        productos: categoriaElementos,
-        pagina: cat
-    })
-};
-
-const productView = async (req, res) => {
+// Panel de visualizacion del Item
+const viewItem = async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -111,12 +90,34 @@ const productView = async (req, res) => {
     } catch (error) {
         console.log(error)
     }
-};
+}
+
+// Obtener Registros por Categoria
+const getCategori = async (req, res) => {
+    const { cat } = req.params;
+
+    const categoriaElementos = await Productos.findAll({ where: {descripcion: {[Op.like]: cat}}})
+
+    res.render("paginas/busqueda", {
+        productos: categoriaElementos,
+        pagina: cat
+    })
+}
+
+// Obtener todos los Registros
+const allItmes = async (req, res) => {
+    const allItems = await Productos.findAll()
+    
+    res.render("paginas/busqueda", {
+        productos: allItems,
+        pagina: "Todos los Productos"
+    })
+}
 
 export {
     inicio,
-    searchProduct,
-    allProductos,
-    categories,
-    productView
+    getItems,
+    getCategori,
+    allItmes,
+    viewItem
 }
